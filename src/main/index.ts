@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 import { autoUpdater } from 'electron-updater'
+import log from 'electron-log'
 import { initDatabase, closeDatabase, getVaultPath } from './database'
 import { registerIpcHandlers } from './ipcHandlers'
 import { registerDriveIpcHandlers } from './google-drive/ipc-handlers'
@@ -60,9 +61,12 @@ function resetAutoLockTimer(): void {
 function setupAutoUpdater(): void {
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = true
+  autoUpdater.logger = log
+  log.transports.file.level = 'info'
 
   autoUpdater.on('error', (err) => {
-    console.error('Auto-updater error:', err)
+    log.error('[AutoUpdate]', err)
+    mainWindow?.webContents.send('update-error', err.message)
   })
 
   autoUpdater.on('update-available', (info) => {

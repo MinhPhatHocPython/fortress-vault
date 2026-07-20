@@ -89,6 +89,7 @@ export interface ElectronAPI {
     onUpdateNotAvailable: (callback: () => void) => void
     onUpdateDownloadProgress: (callback: (progress: { percent: number; bytesPerSecond: number }) => void) => void
     onUpdateDownloaded: (callback: () => void) => void
+    onUpdateError?: (callback: (message: string) => void) => void
   }
 }
 

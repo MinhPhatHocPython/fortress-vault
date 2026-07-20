@@ -53,6 +53,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onUpdateDownloaded: (callback: () => void) => {
       ipcRenderer.on('update-downloaded', () => callback())
     },
+    onUpdateError: (callback: (message: string) => void) => {
+      ipcRenderer.on('update-error', (_event, message) => callback(message))
+    },
   },
 
   // === Google Drive API ===

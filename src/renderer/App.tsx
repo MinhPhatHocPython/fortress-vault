@@ -11,6 +11,8 @@ import { AccountList } from './components/Vault/AccountList'
 import { AccountDetail } from './components/Vault/AccountDetail'
 import { AccountForm } from './components/Vault/AccountForm'
 import { ChangePasswordModal } from './components/Vault/ChangePasswordModal'
+import { UpdateProvider } from './contexts/UpdateContext'
+import { UpdateToast } from './components/UI/UpdateToast'
 import { useAutoLock } from './hooks/useAutoLock'
 import { IAccount } from '../shared/types'
 
@@ -105,10 +107,13 @@ export default function App() {
       <AuthProvider>
         <VaultProvider>
           <ToastProvider>
-            <AuthGate>
-              <Dashboard />
-            </AuthGate>
-            <ToastBootstrap />
+            <UpdateProvider>
+              <AuthGate>
+                <Dashboard />
+              </AuthGate>
+              <UpdateToast />
+              <ToastBootstrap />
+            </UpdateProvider>
           </ToastProvider>
         </VaultProvider>
       </AuthProvider>
