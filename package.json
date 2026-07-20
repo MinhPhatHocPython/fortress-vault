@@ -1,6 +1,6 @@
 {
   "name": "fortress-vault",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "FortressVault - Offline Password Manager with strong encryption",
   "main": "dist/main/index.js",
   "scripts": {
