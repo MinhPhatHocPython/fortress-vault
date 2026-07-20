@@ -1,0 +1,32 @@
+appId: "com.fortressvault.app"
+productName: "Fortress Vault"
+copyright: "Copyright © 2025 Fortress Vault Team"
+directories:
+  output: "release"
+  buildResources: "resources"
+files:
+  - "dist/**/*"
+  - "resources/**/*"
+  - "package.json"
+  - "!node_modules/electron-builder/**"
+  - "!node_modules/electron-updater/**"
+  - "!node_modules/@types/**"
+win:
+  target:
+    - target: "nsis"
+      arch: "x64"
+  icon: "resources/icon.png"
+  artifactName: "PasswordVault_Setup_v${version}.${ext}"
+nsis:
+  oneClick: false
+  perMachine: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: "Fortress Vault"
+  installerIcon: "resources/icon.png"
+  uninstallerIcon: "resources/icon.png"
+publish:
+  provider: generic
+  url: "https://fortressvault.tech/updates/"
+  channel: "latest"

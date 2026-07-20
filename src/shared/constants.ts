@@ -1,0 +1,17 @@
+export const APP_NAME = 'Fortress Vault'
+export const DB_FILENAME = 'vault.db'
+export const BACKUP_DIR = 'backups'
+export const MAX_BACKUPS = 5
+export const PBKDF2_ITERATIONS = 100000
+export const PBKDF2_KEY_LENGTH = 32
+export const SALT_BYTES = 16
+export const IV_BYTES = 12
+export const AES_ALGORITHM = 'aes-256-gcm'
+export const AUTO_LOCK_MINUTES = 5
+export const CLIPBOARD_CLEAR_SECONDS = 15
+export const MAX_LOGIN_ATTEMPTS = 5
+export const LOCKOUT_SECONDS = 30
+export const DEBOUNCE_MS = 300
+export const DEFAULT_PASSWORD_LENGTH = 16
+export const REMEMBER_DEVICE_DAYS = 7
+export const TOKEN_ENCRYPTION_SEED = 'fortress-vault-device-token-v1.0'
