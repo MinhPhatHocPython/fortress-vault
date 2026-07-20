@@ -15,8 +15,8 @@ win:
   target:
     - target: "nsis"
       arch: "x64"
-  icon: "resources/icon.png"
-  artifactName: "PasswordVault_Setup_v${version}.${ext}"
+  icon: "resources/icon.ico"
+  artifactName: "PasswordVault_Setup.${ext}"
 nsis:
   oneClick: false
   perMachine: true
@@ -24,8 +24,8 @@ nsis:
   createDesktopShortcut: true
   createStartMenuShortcut: true
   shortcutName: "Fortress Vault"
-  installerIcon: "resources/icon.png"
-  uninstallerIcon: "resources/icon.png"
+  installerIcon: "resources/icon.ico"
+  uninstallerIcon: "resources/icon.ico"
 publish:
   provider: github
   owner: MinhPhatHocPython
