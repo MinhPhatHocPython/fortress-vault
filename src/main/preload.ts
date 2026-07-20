@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  // Original DB methods
   db: {
     getSettings: () => ipcRenderer.invoke('db:getSettings'),
     saveSettings: (settings: { key: string; value: string }) => ipcRenderer.invoke('db:saveSettings', settings),
@@ -52,5 +53,31 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onUpdateDownloaded: (callback: () => void) => {
       ipcRenderer.on('update-downloaded', () => callback())
     },
+  },
+
+  // === Google Drive API ===
+  googleDrive: {
+    login: () => ipcRenderer.invoke('google-drive:login'),
+    restoreSession: () => ipcRenderer.invoke('google-drive:restore'),
+    logout: () => ipcRenderer.invoke('google-drive:logout'),
+    isLoggedIn: () => ipcRenderer.invoke('google-drive:is-logged-in'),
+    getUserInfo: () => ipcRenderer.invoke('google-drive:get-user-info'),
+
+    // Data manager
+    getWallets: () => ipcRenderer.invoke('drive-data:get-wallets'),
+    addWallet: (wallet: any) => ipcRenderer.invoke('drive-data:add-wallet', wallet),
+    updateWallet: (id: string, updates: any) => ipcRenderer.invoke('drive-data:update-wallet', id, updates),
+    deleteWallet: (id: string) => ipcRenderer.invoke('drive-data:delete-wallet', id),
+    getTransactions: () => ipcRenderer.invoke('drive-data:get-transactions'),
+    addTransaction: (tx: any) => ipcRenderer.invoke('drive-data:add-transaction', tx),
+    getFavorites: () => ipcRenderer.invoke('drive-data:get-favorites'),
+    addFavorite: (fav: any) => ipcRenderer.invoke('drive-data:add-favorite', fav),
+    removeFavorite: (id: string) => ipcRenderer.invoke('drive-data:remove-favorite', id),
+    getSettings: () => ipcRenderer.invoke('drive-data:get-settings'),
+    saveSettings: (settings: any) => ipcRenderer.invoke('drive-data:save-settings', settings),
+    getProfile: () => ipcRenderer.invoke('drive-data:get-profile'),
+    syncAll: () => ipcRenderer.invoke('drive-data:sync-all'),
+    getSyncStatus: () => ipcRenderer.invoke('drive-data:get-sync-status'),
+    setNetworkStatus: (online: boolean) => ipcRenderer.invoke('drive-data:set-network-status', online),
   },
 })

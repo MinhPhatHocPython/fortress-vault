@@ -92,8 +92,32 @@ export interface ElectronAPI {
   }
 }
 
+export interface GoogleDriveAPI {
+  login: () => Promise<{ success: boolean; data?: any; message?: string }>
+  restoreSession: () => Promise<{ success: boolean; loggedIn?: boolean; data?: any; message?: string }>
+  logout: () => Promise<{ success: boolean }>
+  isLoggedIn: () => Promise<{ loggedIn: boolean }>
+  getUserInfo: () => Promise<any>
+
+  getWallets: () => Promise<{ success: boolean; data?: any[]; message?: string }>
+  addWallet: (wallet: any) => Promise<{ success: boolean; data?: any; message?: string }>
+  updateWallet: (id: string, updates: any) => Promise<{ success: boolean; data?: any; message?: string }>
+  deleteWallet: (id: string) => Promise<{ success: boolean; message?: string }>
+  getTransactions: () => Promise<{ success: boolean; data?: any[]; message?: string }>
+  addTransaction: (tx: any) => Promise<{ success: boolean; data?: any; message?: string }>
+  getFavorites: () => Promise<{ success: boolean; data?: any[]; message?: string }>
+  addFavorite: (fav: any) => Promise<{ success: boolean; data?: any; message?: string }>
+  removeFavorite: (id: string) => Promise<{ success: boolean; message?: string }>
+  getSettings: () => Promise<{ success: boolean; data?: any; message?: string }>
+  saveSettings: (settings: any) => Promise<{ success: boolean; message?: string }>
+  getProfile: () => Promise<{ success: boolean; data?: any; message?: string }>
+  syncAll: () => Promise<{ success: boolean; message?: string }>
+  getSyncStatus: () => Promise<any>
+  setNetworkStatus: (online: boolean) => Promise<void>
+}
+
 declare global {
   interface Window {
-    electronAPI: ElectronAPI
+    electronAPI: ElectronAPI & { googleDrive: GoogleDriveAPI }
   }
 }

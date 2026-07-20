@@ -3,6 +3,7 @@ import path from 'path'
 import { autoUpdater } from 'electron-updater'
 import { initDatabase, closeDatabase, getVaultPath } from './database'
 import { registerIpcHandlers } from './ipcHandlers'
+import { registerDriveIpcHandlers } from './google-drive/ipc-handlers'
 import * as crypto from './crypto'
 import { AUTO_LOCK_MINUTES } from '../shared/constants'
 
@@ -107,6 +108,7 @@ app.whenReady().then(async () => {
   const vaultPath = getVaultPath()
   await initDatabase(vaultPath)
   registerIpcHandlers()
+  registerDriveIpcHandlers()
   createWindow()
 
   if (app.isPackaged) {
