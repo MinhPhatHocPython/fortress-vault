@@ -59,6 +59,8 @@ function resetAutoLockTimer(): void {
   }, AUTO_LOCK_MINUTES * 60 * 1000)
 }
 
+let isInitialCheck = true
+
 function setupAutoUpdater(): void {
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = true
@@ -67,7 +69,9 @@ function setupAutoUpdater(): void {
 
   autoUpdater.on('error', (err) => {
     log.error('[AutoUpdate]', err)
-    mainWindow?.webContents.send('update-error', err.message)
+    if (!isInitialCheck) {
+      mainWindow?.webContents.send('update-error', err.message)
+    }
   })
 
   autoUpdater.on('update-available', (info) => {
@@ -78,7 +82,9 @@ function setupAutoUpdater(): void {
   })
 
   autoUpdater.on('update-not-available', () => {
-    mainWindow?.webContents.send('update-not-available')
+    if (!isInitialCheck) {
+      mainWindow?.webContents.send('update-not-available')
+    }
   })
 
   autoUpdater.on('download-progress', (progress) => {
@@ -93,20 +99,28 @@ function setupAutoUpdater(): void {
   })
 
   ipcMain.on('app:check-for-update', () => {
+    isInitialCheck = false
     autoUpdater.checkForUpdates().catch((err) => {
-      console.error('Check for updates failed:', err)
+      mainWindow?.webContents.send('update-error', 'Không thể kiểm tra cập nhật. Vui lòng thử lại sau.')
     })
   })
 
   ipcMain.on('app:download-update', () => {
     autoUpdater.downloadUpdate().catch((err) => {
-      console.error('Download update failed:', err)
+      mainWindow?.webContents.send('update-error', 'Tải bản cập nhật thất bại. Vui lòng thử lại.')
     })
   })
 
   ipcMain.on('app:install-update', () => {
     autoUpdater.quitAndInstall()
   })
+
+  // Auto check on startup - silent fail
+  setTimeout(() => {
+    autoUpdater.checkForUpdates().catch(() => {
+      // Silent fail for initial check
+    })
+  }, 5000)
 }
 
 app.whenReady().then(async () => {
@@ -119,9 +133,6 @@ app.whenReady().then(async () => {
 
   if (app.isPackaged) {
     setupAutoUpdater()
-    setTimeout(() => {
-      autoUpdater.checkForUpdatesAndNotify().catch(() => {})
-    }, 3000)
   }
 
   app.on('activate', () => {
