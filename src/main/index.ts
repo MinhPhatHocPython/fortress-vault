@@ -4,7 +4,8 @@ import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
 import { initDatabase, closeDatabase, getVaultPath } from './database'
 import { registerIpcHandlers } from './ipcHandlers'
-import { registerDriveIpcHandlers } from './google-drive/ipc-handlers'
+// TODO: Google Drive sync sẽ được thêm trong v2.1.0
+// import { registerDriveIpcHandlers } from './google-drive/ipc-handlers'
 import * as crypto from './crypto'
 import { AUTO_LOCK_MINUTES } from '../shared/constants'
 
@@ -112,7 +113,8 @@ app.whenReady().then(async () => {
   const vaultPath = getVaultPath()
   await initDatabase(vaultPath)
   registerIpcHandlers()
-  registerDriveIpcHandlers()
+  // TODO: Google Drive sync sẽ được thêm trong v2.1.0
+  // registerDriveIpcHandlers()
   createWindow()
 
   if (app.isPackaged) {
